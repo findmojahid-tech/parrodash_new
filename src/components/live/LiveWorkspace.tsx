@@ -3,6 +3,7 @@ import { Bell, BriefcaseBusiness, CalendarDays, CheckCircle2, ChevronRight, Clip
 import { getSupabaseClient } from '../../services/supabaseClient';
 import { BusinessModuleView, type BusinessModule } from '../views/BusinessModuleView';
 import { OperationsView } from '../views/OperationsView';
+import { LivePeopleActions } from './LivePeopleActions';
 import { EmployeeInviteManager } from '../auth/EmployeeInviteManager';
 import { EmployeeApprovalInbox } from '../auth/EmployeeApprovalInbox';
 
@@ -243,7 +244,8 @@ export function LiveWorkspace({userId}:{userId:string}) {
           {toolbar}{list}
         </div>}
         {(view==='people'||view==='crm')&&<OperationsView module={view}/>}
-        {!['dashboard','projects','tasks','people','crm'].includes(view)&&<BusinessModuleView module={view as BusinessModule}/>}
+        {(view==='attendance'||view==='leave')&&<LivePeopleActions userId={userId} mode={view}/>}
+        {!['dashboard','projects','tasks','people','crm','attendance','leave'].includes(view)&&<BusinessModuleView module={view as BusinessModule}/>}
       </main>
     </div>
     {newProjectOpen&&<div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-3"><form onSubmit={createProject} className="w-full max-w-lg space-y-4 rounded-xl border border-[#44444b] bg-[#171719] p-5">
