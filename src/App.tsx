@@ -29,6 +29,7 @@ import { OarkieHeader } from './components/layout/OarkieHeader';
 import { ListView } from './components/views/ListView';
 import { DashboardView } from './components/views/DashboardView';
 import { OperationsView } from './components/views/OperationsView';
+import { BusinessModuleView, type BusinessModule } from './components/views/BusinessModuleView';
 import { BoardView } from './components/views/BoardView';
 import { CalendarView } from './components/views/CalendarView';
 import { GanttView } from './components/views/GanttView';
@@ -438,6 +439,7 @@ export default function App() {
         onSelectCalendar={() => setActiveView('calendar')}
         onSelectPeople={() => setActiveView('people')}
         onSelectCrm={() => setActiveView('crm')}
+        onSelectBusinessModule={module => setActiveView(module)}
         onSelectDocs={() => setActiveView('docs')}
         onSelectWhiteboard={() => setActiveView('whiteboard')}
         activeView={activeView}
@@ -463,6 +465,7 @@ export default function App() {
         {/* View Viewport */}
         <main className="flex-1 flex overflow-hidden relative">
           {(activeView === 'people' || activeView === 'crm') && <OperationsView module={activeView} />}
+          {(['attendance','leave','payroll','announcements','approvals','invoices','messages','notifications','holidays','resources','notes','submissions'] as ActiveView[]).includes(activeView) && <BusinessModuleView module={activeView as BusinessModule} />}
           {activeView === 'dashboard' && (
             <DashboardView tasks={tasks} spaces={spaces} statuses={INITIAL_STATUSES} members={TEAM_MEMBERS}
               onOpenTask={task => setSelectedTask(task)} onNewTask={() => setIsNewTaskModalOpen(true)}
