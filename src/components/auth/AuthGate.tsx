@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
+import { EmployeeJoin, isEmployeeJoinRoute } from './EmployeeJoin';
 import { authMode, getMembershipState, getSupabaseClient, type MembershipState } from '../../services/supabaseClient';
 
 type Status = 'loading' | 'signed_out' | 'password_recovery' | MembershipState | 'configuration_error';
@@ -128,6 +129,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
   }
 
 
+  if (isEmployeeJoinRoute()) return <EmployeeJoin />;
   if (authMode === 'demo') return <>{children}</>;
   if (status === 'approved') return <>{children}</>;
 
