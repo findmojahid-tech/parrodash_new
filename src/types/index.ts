@@ -62,6 +62,10 @@ export interface Task {
   key: string; // e.g. "CU-101"
   title: string;
   description: string;
+  /** Project resource/brief (Drive, Figma, etc). Stored with this task. */
+  resourceUrl?: string;
+  /** Link provided by the assignee when submitting completed work. */
+  submissionUrl?: string;
   statusId: string;
   priority: Priority;
   spaceId: string;
