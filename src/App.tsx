@@ -27,6 +27,7 @@ import {
 import { Sidebar } from './components/layout/Sidebar';
 import { TopHeader } from './components/layout/TopHeader';
 import { ListView } from './components/views/ListView';
+import { DashboardView } from './components/views/DashboardView';
 import { BoardView } from './components/views/BoardView';
 import { CalendarView } from './components/views/CalendarView';
 import { GanttView } from './components/views/GanttView';
@@ -124,7 +125,7 @@ export default function App() {
   const [activeSpaceId, setActiveSpaceId] = useState<string | 'all'>('space-eng');
   const [activeFolderId, setActiveFolderId] = useState<string | null>('folder-sprint42');
   const [activeListId, setActiveListId] = useState<string | 'all'>('list-active-sprint');
-  const [activeView, setActiveView] = useState<ActiveView>('list');
+  const [activeView, setActiveView] = useState<ActiveView>('dashboard');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Current logged in user
@@ -430,6 +431,7 @@ export default function App() {
         onResetData={handleResetData}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(prev => !prev)}
+        onSelectDashboard={() => setActiveView('dashboard')}
         onSelectDocs={() => setActiveView('docs')}
         onSelectWhiteboard={() => setActiveView('whiteboard')}
         activeView={activeView}
@@ -454,6 +456,11 @@ export default function App() {
 
         {/* View Viewport */}
         <main className="flex-1 flex overflow-hidden relative">
+          {activeView === 'dashboard' && (
+            <DashboardView tasks={tasks} spaces={spaces} statuses={INITIAL_STATUSES} members={TEAM_MEMBERS}
+              onOpenTask={task => setSelectedTask(task)} onNewTask={() => setIsNewTaskModalOpen(true)}
+              onViewTasks={() => setActiveView('list')} />
+          )}
           {activeView === 'list' && (
             <ListView
               tasks={filteredTasks}
