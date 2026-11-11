@@ -19,7 +19,7 @@ export function EmployeeInviteManager({ userId }: { userId: string }) {
   useEffect(() => {
     if (!client) return;
     let mounted = true;
-    client.from('profiles').select('role,active,registration_status,onboarded_at').eq('id', userId).maybeSingle()
+    Promise.resolve(client.from('profiles').select('role,active,registration_status,onboarded_at').eq('id', userId).maybeSingle())
       .then(({data, error}) => {
         const roles: ManagerRole[] = ['founder', 'cofounder', 'ceo', 'hr'];
         if (mounted) setAuthorized(!error && !!data && roles.includes(data.role as ManagerRole) &&
