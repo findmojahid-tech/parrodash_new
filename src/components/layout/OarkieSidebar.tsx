@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import {
-  BarChart3, BriefcaseBusiness, Users, CalendarDays, ChevronDown, ChevronRight, CheckSquare2, Command,
+  BarChart3, BriefcaseBusiness, Users, CalendarDays, Bell, BookOpen, Clock3, CreditCard, FileCheck2, Files, Megaphone, MessageCircle, ReceiptText, ShieldCheck, Umbrella, Wallet, ChevronDown, ChevronRight, CheckSquare2, Command,
   FileText, FolderKanban, LayoutDashboard, LayoutGrid, Menu, Moon, PanelLeftClose,
   PanelLeftOpen, Plus, RotateCcw, Search, Sparkles, Sun, X,
 } from 'lucide-react';
 import type { Assignee, ClickUpSpace } from '../../types';
+import type { BusinessModule } from '../views/BusinessModuleView';
 
 interface Props {
   spaces: ClickUpSpace[];
@@ -31,6 +32,7 @@ interface Props {
   onSelectCalendar: () => void;
   onSelectPeople: () => void;
   onSelectCrm: () => void;
+  onSelectBusinessModule: (module: BusinessModule) => void;
   activeView: string;
 }
 export const OarkieSidebar: React.FC<Props> = ({
@@ -38,7 +40,7 @@ export const OarkieSidebar: React.FC<Props> = ({
   onSelectList, currentUser, isDarkMode, onToggleTheme, onOpenCommandPalette,
   onOpenBrain, onOpenNewTask, onResetData, isCollapsed, onToggleCollapse,
   onSelectDocs, onSelectWhiteboard, onSelectDashboard, onSelectTasks,
-  onSelectBoard, onSelectCalendar, onSelectPeople, onSelectCrm, activeView,
+  onSelectBoard, onSelectCalendar, onSelectPeople, onSelectCrm, onSelectBusinessModule, activeView,
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedSpaces, setExpandedSpaces] = useState<Record<string, boolean>>({});
@@ -54,6 +56,18 @@ export const OarkieSidebar: React.FC<Props> = ({
     { label: 'Calendar', Icon: CalendarDays, current: activeView === 'calendar', click: onSelectCalendar },
     { label: 'Docs', Icon: FileText, current: activeView === 'docs', click: onSelectDocs },
     { label: 'Whiteboard', Icon: LayoutGrid, current: activeView === 'whiteboard', click: onSelectWhiteboard },
+    { label: 'Attendance', Icon: Clock3, current: activeView === 'attendance', click: () => onSelectBusinessModule('attendance') },
+    { label: 'Leave requests', Icon: Umbrella, current: activeView === 'leave', click: () => onSelectBusinessModule('leave') },
+    { label: 'Payroll', Icon: Wallet, current: activeView === 'payroll', click: () => onSelectBusinessModule('payroll') },
+    { label: 'Announcements', Icon: Megaphone, current: activeView === 'announcements', click: () => onSelectBusinessModule('announcements') },
+    { label: 'Approvals', Icon: FileCheck2, current: activeView === 'approvals', click: () => onSelectBusinessModule('approvals') },
+    { label: 'Invoices', Icon: ReceiptText, current: activeView === 'invoices', click: () => onSelectBusinessModule('invoices') },
+    { label: 'Team messages', Icon: MessageCircle, current: activeView === 'messages', click: () => onSelectBusinessModule('messages') },
+    { label: 'Notifications', Icon: Bell, current: activeView === 'notifications', click: () => onSelectBusinessModule('notifications') },
+    { label: 'Company holidays', Icon: CalendarDays, current: activeView === 'holidays', click: () => onSelectBusinessModule('holidays') },
+    { label: 'Employee resources', Icon: Files, current: activeView === 'resources', click: () => onSelectBusinessModule('resources') },
+    { label: 'Notes', Icon: BookOpen, current: activeView === 'notes', click: () => onSelectBusinessModule('notes') },
+    { label: 'Task submissions', Icon: ShieldCheck, current: activeView === 'submissions', click: () => onSelectBusinessModule('submissions') },
     { label: 'Parro AI', Icon: Sparkles, current: false, click: onOpenBrain },
   ];
   function pick(action: () => void) { action(); closeOnMobile(); }
