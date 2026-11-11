@@ -24,8 +24,8 @@ import {
   INITIAL_WHITEBOARD_EDGES,
 } from './data/initialData';
 
-import { Sidebar } from './components/layout/Sidebar';
-import { TopHeader } from './components/layout/TopHeader';
+import { OarkieSidebar } from './components/layout/OarkieSidebar';
+import { OarkieHeader } from './components/layout/OarkieHeader';
 import { ListView } from './components/views/ListView';
 import { DashboardView } from './components/views/DashboardView';
 import { BoardView } from './components/views/BoardView';
@@ -412,9 +412,9 @@ export default function App() {
   const activeTimerTask = tasks.find(t => t.id === activeTimerTaskId) || null;
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#0f1115] text-slate-100 font-sans antialiased">
+    <div className="flex h-[100dvh] w-full overflow-hidden bg-[#0D0D0F] text-[#F7F7F8] font-sans antialiased">
       {/* ClickUp 3.0 Sidebar */}
-      <Sidebar
+      <OarkieSidebar
         spaces={spaces}
         activeSpaceId={activeSpaceId}
         activeFolderId={activeFolderId}
@@ -432,15 +432,18 @@ export default function App() {
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(prev => !prev)}
         onSelectDashboard={() => setActiveView('dashboard')}
+        onSelectTasks={() => setActiveView('list')}
+        onSelectBoard={() => setActiveView('board')}
+        onSelectCalendar={() => setActiveView('calendar')}
         onSelectDocs={() => setActiveView('docs')}
         onSelectWhiteboard={() => setActiveView('whiteboard')}
         activeView={activeView}
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-screen min-w-0 overflow-hidden bg-[#0f1115]">
+      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-[#0D0D0F]">
         {/* Top Header Navigation & Controls */}
-        <TopHeader
+        <OarkieHeader
           activeView={activeView}
           onViewChange={view => setActiveView(view)}
           filterState={filterState}
