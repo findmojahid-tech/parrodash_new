@@ -5,6 +5,7 @@ import { BusinessModuleView, type BusinessModule } from '../views/BusinessModule
 import { OperationsView } from '../views/OperationsView';
 import { LivePeopleActions } from './LivePeopleActions';
 import { LiveCollaboration } from './LiveCollaboration';
+import { LiveCrm } from './LiveCrm';
 import { EmployeeInviteManager } from '../auth/EmployeeInviteManager';
 import { EmployeeApprovalInbox } from '../auth/EmployeeApprovalInbox';
 
@@ -244,7 +245,8 @@ export function LiveWorkspace({userId}:{userId:string}) {
           <div><h1 className="text-2xl font-semibold">Tasks & Inbox</h1><p className="mt-2 text-xs text-[#A0A0A8]">Status updates persist in Supabase. Completed {complete} of {tasks.length} visible tasks.</p></div>
           {toolbar}{list}
         </div>}
-        {(view==='people'||view==='crm')&&<OperationsView module={view}/>}
+        {view==='people'&&<OperationsView module="people"/>}
+        {view==='crm'&&<LiveCrm userId={userId}/>}
         {(view==='attendance'||view==='leave')&&<LivePeopleActions userId={userId} mode={view}/>}
         {(view==='notes'||view==='announcements'||view==='messages'||view==='notifications')&&<LiveCollaboration userId={userId} mode={view}/>}
         {!['dashboard','projects','tasks','people','crm','attendance','leave','notes','announcements','messages','notifications'].includes(view)&&<BusinessModuleView module={view as BusinessModule}/>}
