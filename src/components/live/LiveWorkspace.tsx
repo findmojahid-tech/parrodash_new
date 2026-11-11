@@ -6,6 +6,7 @@ import { OperationsView } from '../views/OperationsView';
 import { LivePeopleActions } from './LivePeopleActions';
 import { LiveCollaboration } from './LiveCollaboration';
 import { LiveCrm } from './LiveCrm';
+import { LiveTaskSubmissions } from './LiveTaskSubmissions';
 import { EmployeeInviteManager } from '../auth/EmployeeInviteManager';
 import { EmployeeApprovalInbox } from '../auth/EmployeeApprovalInbox';
 
@@ -249,7 +250,8 @@ export function LiveWorkspace({userId}:{userId:string}) {
         {view==='crm'&&<LiveCrm userId={userId}/>}
         {(view==='attendance'||view==='leave')&&<LivePeopleActions userId={userId} mode={view}/>}
         {(view==='notes'||view==='announcements'||view==='messages'||view==='notifications')&&<LiveCollaboration userId={userId} mode={view}/>}
-        {!['dashboard','projects','tasks','people','crm','attendance','leave','notes','announcements','messages','notifications'].includes(view)&&<BusinessModuleView module={view as BusinessModule}/>}
+        {view==='submissions'&&<LiveTaskSubmissions userId={userId}/>}
+        {!['dashboard','projects','tasks','people','crm','attendance','leave','notes','announcements','messages','notifications','submissions'].includes(view)&&<BusinessModuleView module={view as BusinessModule}/>}
       </main>
     </div>
     {newProjectOpen&&<div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-3"><form onSubmit={createProject} className="w-full max-w-lg space-y-4 rounded-xl border border-[#44444b] bg-[#171719] p-5">
