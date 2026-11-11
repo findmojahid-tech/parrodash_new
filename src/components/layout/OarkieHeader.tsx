@@ -4,6 +4,7 @@ import {
   LayoutDashboard, LayoutGrid, Plus, Search, SlidersHorizontal, Sparkles, Table2,
 } from 'lucide-react';
 import type { ActiveView, Assignee, FilterState } from '../../types';
+import { BUSINESS_MODULES, type BusinessModule } from '../views/BusinessModuleView';
 
 interface Props {
   activeView: ActiveView;
@@ -35,6 +36,7 @@ export const OarkieHeader: React.FC<Props> = ({
   totalTasks, onOpenNewTask, onOpenBrain, teamMembers,
 }) => {
   const heading = activeView === 'dashboard' ? 'Executive workspace overview'
+    : activeView in BUSINESS_MODULES ? BUSINESS_MODULES[activeView as BusinessModule].title
     : activeView === 'people' ? 'People operations & team directory'
     : activeView === 'crm' ? 'Client CRM & revenue pipeline'
     : activeView === 'docs' ? 'Workspace documents'
@@ -73,7 +75,7 @@ export const OarkieHeader: React.FC<Props> = ({
         </button>)}
       </div>
     </div>
-    {!['dashboard','people','crm','docs','whiteboard'].includes(activeView) && <div className="flex flex-wrap items-center gap-2 border-t border-[#303034] bg-[#121214] px-4 py-2 sm:px-6">
+    {!(['dashboard','people','crm','docs','whiteboard',...Object.keys(BUSINESS_MODULES)].includes(activeView)) && <div className="flex flex-wrap items-center gap-2 border-t border-[#303034] bg-[#121214] px-4 py-2 sm:px-6">
       <label className="flex min-w-[160px] flex-1 items-center gap-2 rounded-md border border-[#303034] bg-[#0D0D0F] px-2.5 py-1.5 text-[#777780] sm:max-w-[280px]">
         <Search className="h-3.5 w-3.5 shrink-0"/><input value={filterState.searchQuery} onChange={e=>onFilterChange({searchQuery:e.target.value})} type="search" placeholder="Search tasks..." aria-label="Search tasks" className="w-full min-w-0 bg-transparent text-[11px] text-white outline-none placeholder:text-[#777780]" />
       </label>
