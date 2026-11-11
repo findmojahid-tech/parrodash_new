@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { authMode, getMembershipState, getSupabaseClient, type MembershipState } from '../services/supabaseClient';
+import { authMode, getMembershipState, getSupabaseClient, type MembershipState } from '../../services/supabaseClient';
 
 type Status = 'loading' | 'signed_out' | MembershipState | 'configuration_error';
 
