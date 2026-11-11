@@ -27,6 +27,7 @@ export function LiveTaskSubmissions({ userId }: { userId: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [reviewNote, setReviewNote] = useState<Record<string,string>>({});
 
   const load = useCallback(async () => {
     if (!client) return;
@@ -79,6 +80,27 @@ export function LiveTaskSubmissions({ userId }: { userId: string }) {
     } finally { setBusy(false); }
   }
 
+  async function review(id: string, accept: boolean) {
+    if (!client || busy) return;
+    const note = (reviewNote[id] || '').trim();
+    if (!accept && note.length < 3) { setError('Give a reason when requesting changes.'); return; }
+    setBusy(true); setError(''); setSuccess('');
+    try {
+      const { data: auth, error: authError } = await client.auth.getUser();
+      if (authError || auth.user?.id !== userId) throw new Error('Session expired.');
+      // Original ParroDash SECURITY DEFINER RPC validates reviewer role,
+      // state transition, task status, notifications and audit events.
+      const {error: reviewError} = await client.rpc('review_work_submission', {
+        p_submission_id:id, p_accept:accept, p_note:note,
+      });
+      if (reviewError) throw reviewError;
+      await load();
+      setSuccess(accept ? 'Submission approved.' : 'Changes requested from the assignee.');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Could not review submission.');
+    } finally { setBusy(false); }
+  }
+
   return <div className="h-full w-full overflow-y-auto bg-[#0D0D0F] text-white">
     <div className="mx-auto max-w-6xl space-y-5 px-4 py-7 sm:px-7">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -118,6 +140,11 @@ export function LiveTaskSubmissions({ userId }: { userId: string }) {
             <a href={safeHttpUrl(s.work_url)||'#'} target="_blank" rel="noopener noreferrer" className="inline-flex max-w-full items-center gap-1 break-all text-white underline">{s.work_url}<ArrowUpRight className="h-3 w-3 shrink-0"/></a>
             {s.message&&<p className="whitespace-pre-wrap text-[#A0A0A8]">{s.message}</p>}
             {s.review_note&&<p className="text-[#A0A0A8]">Review: {s.review_note}</p>}
+            {s.status==='submitted' && s.submitted_by!==userId && <div className="mt-3 flex flex-wrap items-center gap-2">
+              <input aria-label="Review note" maxLength={2000} value={reviewNote[s.id]||''} onChange={e=>setReviewNote(p=>({...p,[s.id]:e.target.value}))} placeholder="Review note (required for changes)" className={field}/>
+              <button type="button" disabled={busy} onClick={()=>void review(s.id,true)} className="rounded-md bg-white px-3 py-2 text-xs font-semibold text-black disabled:opacity-50">Approve</button>
+              <button type="button" disabled={busy} onClick={()=>void review(s.id,false)} className="rounded-md border border-[#44444b] px-3 py-2 text-xs text-white disabled:opacity-50">Request changes</button>
+            </div>}
             <p className="text-[10px] text-[#777780]">{new Date(s.created_at).toLocaleString()}</p>
           </div><span className="rounded border border-[#44444b] px-2 py-1 capitalize">{s.status.replaceAll('_',' ')}</span>
         </div>)}
