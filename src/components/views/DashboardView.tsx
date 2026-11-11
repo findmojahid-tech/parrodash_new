@@ -38,7 +38,7 @@ export const DashboardView: React.FC<Props> = ({ tasks, spaces, statuses, member
   const status = (id: string) => statuses.find(s => s.id === id)?.name || 'TASK';
   const date = (value?: string) => value ? new Date(value + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'No date';
 
-  return <div className="h-full w-full overflow-y-auto bg-[#0f1115] text-slate-100">
+  return <div className="h-full w-full overflow-y-auto bg-[#0D0D0F] text-slate-100">
     <div className="mx-auto max-w-7xl space-y-6 px-5 py-7 sm:px-7 lg:px-10">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
@@ -51,14 +51,14 @@ export const DashboardView: React.FC<Props> = ({ tasks, spaces, statuses, member
         <button onClick={onNewTask} className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2.5 text-xs font-semibold text-black transition-opacity hover:opacity-85"><Plus className="h-4 w-4"/> New task</button>
       </div>
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {metrics.map(({ label, number, icon: Icon, detail }) => <div key={label} className="rounded-xl border border-slate-800 bg-[#17191e] p-4 sm:p-5">
+        {metrics.map(({ label, number, icon: Icon, detail }) => <div key={label} className="rounded-xl border border-slate-800 bg-[#171719] p-4 sm:p-5">
           <div className="flex items-center justify-between text-slate-400"><span className="text-xs font-medium">{label}</span><Icon className="h-4 w-4 text-slate-400"/></div>
           <p className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">{number}</p>
           <p className="mt-2 text-[11px] text-slate-500">{detail}</p>
         </div>)}
       </div>
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(300px,1fr)]">
-        <section className="min-w-0 rounded-xl border border-slate-800 bg-[#17191e]">
+        <section className="min-w-0 rounded-xl border border-slate-800 bg-[#171719]">
           <div className="flex items-center justify-between gap-2 border-b border-slate-800 px-5 py-4">
             <div><h2 className="text-sm font-semibold">Priority focus</h2><p className="mt-1 text-xs text-slate-500">High-impact work that needs your attention</p></div>
             <button onClick={onViewTasks} className="flex items-center gap-1 text-xs text-slate-300 hover:text-white">All tasks <ArrowUpRight className="h-4 w-4"/></button>
@@ -71,11 +71,11 @@ export const DashboardView: React.FC<Props> = ({ tasks, spaces, statuses, member
             </button>) : <p className="p-5 text-xs text-slate-400">No urgent or high priority tasks.</p>}
           </div>
         </section>
-        <section className="min-w-0 rounded-xl border border-slate-800 bg-[#17191e]">
+        <section className="min-w-0 rounded-xl border border-slate-800 bg-[#171719]">
           <div className="border-b border-slate-800 px-5 py-4"><h2 className="text-sm font-semibold">Upcoming deadlines</h2><p className="mt-1 text-xs text-slate-500">Your next scheduled milestones</p></div>
           <div className="divide-y divide-slate-800/80">
             {summary.upcoming.length ? summary.upcoming.map(t => <button key={t.id} onClick={() => onOpenTask(t)} className="flex w-full items-center gap-3 px-5 py-4 text-left transition-colors hover:bg-white/[0.035]">
-              <div className="flex h-10 w-12 shrink-0 flex-col items-center justify-center rounded-md border border-slate-700 bg-[#101115]">
+              <div className="flex h-10 w-12 shrink-0 flex-col items-center justify-center rounded-md border border-slate-700 bg-[#121214]">
                 <span className="text-[9px] uppercase text-slate-500">{new Date(String(t.dueDate) + 'T00:00:00').toLocaleDateString('en', { month: 'short' })}</span>
                 <span className="text-sm font-semibold">{new Date(String(t.dueDate) + 'T00:00:00').getDate()}</span>
               </div>
@@ -85,14 +85,14 @@ export const DashboardView: React.FC<Props> = ({ tasks, spaces, statuses, member
           </div>
         </section>
       </div>
-      <section className="rounded-xl border border-slate-800 bg-[#17191e] p-5">
+      <section className="rounded-xl border border-slate-800 bg-[#171719] p-5">
         <div className="mb-5 flex items-center gap-2"><FolderKanban className="h-4 w-4 text-slate-400"/><h2 className="text-sm font-semibold">Spaces at a glance</h2><span className="ml-auto text-xs text-slate-500">{spaces.length} spaces</span></div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {spaces.map(space => {
             const related = tasks.filter(t => t.spaceId === space.id);
             const complete = related.filter(t => statuses.some(s => s.id === t.statusId && (s.category === 'done' || s.category === 'closed'))).length;
             const percent = related.length ? Math.round(complete * 100 / related.length) : 0;
-            return <div key={space.id} className="rounded-lg border border-slate-800 bg-[#101115] p-4">
+            return <div key={space.id} className="rounded-lg border border-slate-800 bg-[#121214] p-4">
               <div className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full border border-slate-500"/><span className="truncate text-sm font-medium">{space.name}</span></div>
               <p className="mt-3 line-clamp-2 min-h-8 text-xs text-slate-500">{space.description}</p>
               <div className="mt-4 flex justify-between text-[11px] text-slate-400"><span>{related.length} tasks</span><span>{percent}% complete</span></div>
