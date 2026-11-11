@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNod
 import type { User } from '@supabase/supabase-js';
 import { EmployeeJoin, isEmployeeJoinRoute } from './EmployeeJoin';
 import { EmployeeInviteManager } from './EmployeeInviteManager';
+import { EmployeeApprovalInbox } from './EmployeeApprovalInbox';
 import { authMode, getMembershipState, getSupabaseClient, type MembershipState } from '../../services/supabaseClient';
 
 type Status = 'loading' | 'signed_out' | 'password_recovery' | MembershipState | 'configuration_error';
@@ -132,7 +133,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
   if (isEmployeeJoinRoute()) return <EmployeeJoin />;
   if (authMode === 'demo') return <>{children}</>;
-  if (status === 'approved') return <>{children}{user && <EmployeeInviteManager userId={user.id} />}</>;
+  if (status === 'approved') return <>{children}{user && <EmployeeInviteManager userId={user.id} /><EmployeeApprovalInbox userId={user.id} />}</>;
 
   return (
     <main className="min-h-screen bg-[#0f1115] text-slate-100 flex items-center justify-center p-4">
