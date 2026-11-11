@@ -61,6 +61,20 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
     onUpdateTask({ ...task, description, updatedAt: new Date().toISOString() });
   };
 
+  const handleLinkChange = (field: 'resourceUrl' | 'submissionUrl', value: string) => {
+    onUpdateTask({ ...task, [field]: value, updatedAt: new Date().toISOString() });
+  };
+
+  const safeExternalLink = (raw: string | undefined) => {
+    if (!raw) return null;
+    try {
+      const url = new URL(raw.trim());
+      return url.protocol === 'https:' ? url.href : null;
+    } catch {
+      return null;
+    }
+  };
+
   const handleStatusChange = (statusId: string) => {
     onUpdateTask({ ...task, statusId, updatedAt: new Date().toISOString() });
   };
@@ -410,6 +424,39 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
               className="w-full bg-transparent text-xs text-slate-300 leading-relaxed border-none focus:outline-none font-mono resize-none"
             />
           </div>
+
+          {/* Resource and submission links: preserve the existing task panel layout. */}
+          <section className="space-y-3 border-t border-slate-800/40 pt-4" aria-label="Task links">
+            {([
+              { field: 'resourceUrl', label: 'Resource link', hint: 'Brief, Figma, Drive or reference URL' },
+              { field: 'submissionUrl', label: 'Work submission link', hint: 'Final deliverable or review URL' },
+            ] as const).map(({ field, label, hint }) => {
+              const value = task[field] || '';
+              const safeUrl = safeExternalLink(value);
+              return (
+                <div key={field} className="space-y-1.5">
+                  <label htmlFor={`task-${field}`} className="block text-[11px] font-medium text-slate-400">{label}</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      id={`task-${field}`}
+                      type="url"
+                      inputMode="url"
+                      autoComplete="url"
+                      value={value}
+                      onChange={e => handleLinkChange(field, e.target.value)}
+                      placeholder="https://..."
+                      aria-describedby={`task-${field}-hint`}
+                      className="min-w-0 flex-1 rounded-md border border-slate-700/60 bg-[#181a20] px-3 py-2 text-xs text-slate-200 placeholder:text-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400"
+                    />
+                    {safeUrl && <a href={safeUrl} target="_blank" rel="noopener noreferrer" className="shrink-0 text-xs text-purple-300 hover:text-white underline">Open</a>}
+                  </div>
+                  <p id={`task-${field}-hint`} className="text-[10px] text-slate-500">
+                    {value && !safeUrl ? 'Enter a full https:// link to open it safely.' : hint}
+                  </p>
+                </div>
+              );
+            })}
+          </section>
 
           {/* Subtasks Section */}
           <div className="space-y-2 pt-2 border-t border-slate-800/40">
