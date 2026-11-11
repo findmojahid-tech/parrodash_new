@@ -326,6 +326,8 @@ export default function App() {
       key: `CU-${nextKeyNum}`,
       title: newTaskData.title || 'Untitled Task',
       description: newTaskData.description || '',
+      resourceUrl: newTaskData.resourceUrl,
+      submissionUrl: newTaskData.submissionUrl,
       statusId: newTaskData.statusId || 'status-todo',
       priority: newTaskData.priority || 'normal',
       spaceId: newTaskData.spaceId || 'space-eng',
