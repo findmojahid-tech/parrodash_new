@@ -32,6 +32,7 @@ export async function getMembershipState(client: SupabaseClient, userId: string)
     .maybeSingle();
   if (error) throw new Error('Unable to verify workspace access. Please try again.');
   if (!data) return 'pending';
+  if (data.registration_status === 'pending') return 'pending';
   if (data.registration_status === 'rejected' || data.active === false) return 'blocked';
   if (data.active === true && data.onboarded_at && data.registration_status === 'approved') return 'approved';
   return 'pending';
