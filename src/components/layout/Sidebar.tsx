@@ -11,6 +11,7 @@ import {
   Sun,
   RotateCcw,
   LayoutGrid,
+  LayoutDashboard,
   Folder,
   FolderOpen,
   List as ListIcon,
@@ -37,6 +38,7 @@ interface SidebarProps {
   onResetData: () => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
+  onSelectDashboard: () => void;
   onSelectDocs: () => void;
   onSelectWhiteboard: () => void;
   activeView: string;
@@ -59,6 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onResetData,
   isCollapsed,
   onToggleCollapse,
+  onSelectDashboard,
   onSelectDocs,
   onSelectWhiteboard,
   activeView,
@@ -135,6 +138,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             <Layers className="w-3.5 h-3.5" />
           </button>
+
+          <button onClick={onSelectDashboard} title="Dashboard" className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${activeView === 'dashboard' ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]'}`}><LayoutDashboard className="w-3.5 h-3.5" /></button>
 
           <button
             onClick={onSelectDocs}
@@ -275,6 +280,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         <div className="px-1.5 space-y-0.5">
+          <button onClick={onSelectDashboard} className={`w-full flex items-center gap-2 rounded-md px-2 py-1.5 text-xs transition-colors ${activeView === 'dashboard' ? 'bg-white/10 font-semibold text-white' : 'text-slate-400 hover:bg-white/[0.04] hover:text-white'}`}>
+            <LayoutDashboard className="h-3.5 w-3.5" /><span>Dashboard</span><span className="ml-auto rounded border border-slate-700 px-1.5 py-0.5 text-[9px] text-slate-400">NEW</span>
+          </button>
           <button
             onClick={() => {
               onSelectSpace('all');
