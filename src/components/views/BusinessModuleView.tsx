@@ -92,7 +92,7 @@ export const BusinessModuleView: React.FC<{ module: BusinessModule }> = ({module
       const {data,error:queryError} = await client.from(config.table).select(config.select)
         .order(config.sort,{ascending:false}).limit(100);
       if (queryError) throw new Error('Records are not accessible to this account. Check permissions or staging availability.');
-      setRows((data || []) as Record<string,unknown>[]);
+      setRows(Array.isArray(data) ? data as unknown as Record<string,unknown>[] : []);
     } catch (cause) {
       setRows([]);
       setError(cause instanceof Error ? cause.message : 'This module is unavailable.');
