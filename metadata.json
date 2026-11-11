@@ -1,0 +1,6 @@
+{
+  "name": "ClickUp WorkOS",
+  "description": "The everything app for work: high-velocity tasks, multi-view boards, timelines, docs, time tracking, and ClickUp Brain AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
