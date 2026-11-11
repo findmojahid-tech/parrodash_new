@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BarChart3, CalendarDays, CheckSquare2, Command, FileText, Filter, FolderKanban,
+  BarChart3, BriefcaseBusiness, Users, CalendarDays, CheckSquare2, Command, FileText, Filter, FolderKanban,
   LayoutDashboard, LayoutGrid, Plus, Search, SlidersHorizontal, Sparkles, Table2,
 } from 'lucide-react';
 import type { ActiveView, Assignee, FilterState } from '../../types';
@@ -19,6 +19,8 @@ interface Props {
   teamMembers: Assignee[];
 }
 const views: {id: ActiveView; label: string; Icon: React.ComponentType<{className?: string}>}[] = [
+  {id: 'people', label: 'People', Icon: Users},
+  {id: 'crm', label: 'CRM', Icon: BriefcaseBusiness},
   {id: 'dashboard', label: 'Overview', Icon: LayoutDashboard},
   {id: 'list', label: 'List', Icon: CheckSquare2},
   {id: 'board', label: 'Board', Icon: FolderKanban},
@@ -33,6 +35,8 @@ export const OarkieHeader: React.FC<Props> = ({
   totalTasks, onOpenNewTask, onOpenBrain, teamMembers,
 }) => {
   const heading = activeView === 'dashboard' ? 'Executive workspace overview'
+    : activeView === 'people' ? 'People operations & team directory'
+    : activeView === 'crm' ? 'Client CRM & revenue pipeline'
     : activeView === 'docs' ? 'Workspace documents'
     : activeView === 'whiteboard' ? 'Collaborative whiteboard'
     : activeView === 'calendar' ? 'Delivery & team schedule'
@@ -69,7 +73,7 @@ export const OarkieHeader: React.FC<Props> = ({
         </button>)}
       </div>
     </div>
-    {!['dashboard','docs','whiteboard'].includes(activeView) && <div className="flex flex-wrap items-center gap-2 border-t border-[#303034] bg-[#121214] px-4 py-2 sm:px-6">
+    {!['dashboard','people','crm','docs','whiteboard'].includes(activeView) && <div className="flex flex-wrap items-center gap-2 border-t border-[#303034] bg-[#121214] px-4 py-2 sm:px-6">
       <label className="flex min-w-[160px] flex-1 items-center gap-2 rounded-md border border-[#303034] bg-[#0D0D0F] px-2.5 py-1.5 text-[#777780] sm:max-w-[280px]">
         <Search className="h-3.5 w-3.5 shrink-0"/><input value={filterState.searchQuery} onChange={e=>onFilterChange({searchQuery:e.target.value})} type="search" placeholder="Search tasks..." aria-label="Search tasks" className="w-full min-w-0 bg-transparent text-[11px] text-white outline-none placeholder:text-[#777780]" />
       </label>
