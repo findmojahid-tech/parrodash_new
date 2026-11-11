@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BriefcaseBusiness, CalendarClock, RefreshCw, ShieldCheck, UserRoundCheck, Users } from 'lucide-react';
 import { authMode, getSupabaseClient } from '../../services/supabaseClient';
+import { DemoCrmView } from './DemoCrmView';
 import { TEAM_MEMBERS } from '../../data/initialData';
 
 type Profile = { id: string; full_name: string | null; role: string; department: string | null; title: string | null; email: string | null; active: boolean };
@@ -52,6 +53,7 @@ export const OperationsView: React.FC<Props> = ({ module }) => {
   useEffect(() => { void refresh(); }, [refresh]);
   const people = demo ? TEAM_MEMBERS.map(p=>({ id:p.id, full_name:p.name, role:p.role, email:p.email, title:p.role, department:'Demo team', active:true })) : profiles;
   const isPeople = module === 'people';
+  if (demo && module === 'crm') return <DemoCrmView />;
   return <div className="h-full w-full overflow-y-auto bg-[#0D0D0F] text-white">
     <div className="mx-auto max-w-7xl space-y-5 px-4 py-6 sm:px-7">
       <div className="flex flex-wrap items-center justify-between gap-3">
