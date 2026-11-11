@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AlertCircle, ArrowUpRight, Database, RefreshCw, Search, ShieldCheck } from 'lucide-react';
 import { authMode, getSupabaseClient } from '../../services/supabaseClient';
+import { DemoBusinessModule } from './DemoBusinessModule';
 
 /** Lists only explicitly selected columns. Row visibility and authorization are enforced by Supabase RLS. */
 export type BusinessModule = 'attendance' | 'leave' | 'payroll' | 'announcements' | 'approvals' | 'invoices' | 'messages' | 'notifications' | 'holidays' | 'resources' | 'notes' | 'submissions';
@@ -100,6 +101,7 @@ export const BusinessModuleView: React.FC<{ module: BusinessModule }> = ({module
   }, [client,config]);
   useEffect(()=>{if(!demo)void load();},[demo,load]);
   const filtered = useMemo(()=>rows.filter(row=>config.columns.some(({key})=>String(row[key]??'').toLowerCase().includes(search.toLowerCase()))),[rows,search,config]);
+  if (demo) return <DemoBusinessModule module={module} />;
   return <div className="h-full w-full overflow-y-auto bg-[#0D0D0F] text-white">
     <div className="mx-auto max-w-7xl space-y-5 px-4 py-7 sm:px-7">
       <div className="flex flex-wrap items-start justify-between gap-4">
