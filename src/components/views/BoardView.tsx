@@ -67,10 +67,10 @@ export const BoardView: React.FC<BoardViewProps> = ({
         return (
           <div
             key={status.id}
-            className="w-72 shrink-0 bg-[#121419]/70 rounded-lg border border-slate-800/40 flex flex-col max-h-full"
+            className="w-72 shrink-0 bg-[#121419]/70 rounded-lg border border-[#303034] flex flex-col max-h-full"
           >
             {/* Minimal Column Header */}
-            <div className="p-2.5 border-b border-slate-800/40 flex items-center justify-between shrink-0">
+            <div className="p-2.5 border-b border-[#303034] flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
                 <span
                   className="w-2 h-2 rounded-full"
@@ -118,7 +118,7 @@ export const BoardView: React.FC<BoardViewProps> = ({
                     </button>
                     <button
                       type="submit"
-                      className="px-2.5 py-0.5 bg-purple-600 hover:bg-purple-500 text-white font-medium rounded"
+                      className="px-2.5 py-0.5 bg-white hover:bg-zinc-200 text-black font-medium rounded"
                     >
                       Save
                     </button>
@@ -133,7 +133,7 @@ export const BoardView: React.FC<BoardViewProps> = ({
                   <div
                     key={task.id}
                     onClick={() => onSelectTask(task)}
-                    className="group bg-[#16181e] hover:bg-[#1a1d24] border border-slate-800/60 hover:border-slate-700/80 rounded-md p-2.5 space-y-2 cursor-pointer transition-colors"
+                    className="group bg-[#16181e] hover:bg-[#1a1d24] border border-[#303034] hover:border-slate-700/80 rounded-md p-2.5 space-y-2 cursor-pointer transition-colors"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-slate-500">
@@ -148,12 +148,12 @@ export const BoardView: React.FC<BoardViewProps> = ({
                       />
                     </div>
 
-                    <h4 className="text-xs font-medium text-slate-200 group-hover:text-purple-300 leading-snug line-clamp-2">
+                    <h4 className="text-xs font-medium text-slate-200 group-hover:text-white leading-snug line-clamp-2">
                       {task.title}
                     </h4>
 
                     {/* Card Footer */}
-                    <div className="flex items-center justify-between pt-1 border-t border-slate-800/40 text-[11px] text-slate-500">
+                    <div className="flex items-center justify-between pt-1 border-t border-[#303034] text-[11px] text-slate-500">
                       <div>
                         {task.subtasks.length > 0 && (
                           <span className="font-mono text-[10px]">
