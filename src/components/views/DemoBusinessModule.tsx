@@ -70,7 +70,7 @@ export function DemoBusinessModule({module}: {module: BusinessModule}) {
     event.preventDefault();
     const data:Record<string,RecordValue> = {};
     for (const f of cfg.fields) {
-      const val = (fields[f.key] || '').trim();
+      const val = (fields[f.key] || (f.type === 'select' ? f.options?.[0] : '') || '').trim();
       if (f.required && !val) {setError(f.label+' is required.');return;}
       if (f.type === 'url' && !validLink(val)) {setError('Enter a valid HTTPS or HTTP link.');return;}
       data[f.key] = f.type === 'number' ? Math.max(0,Number(val || 0)) : val;
