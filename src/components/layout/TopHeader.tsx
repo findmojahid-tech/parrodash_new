@@ -7,6 +7,7 @@ import {
   Table,
   FileText,
   LayoutGrid,
+  LayoutDashboard,
   Search,
   Filter,
   Sparkles,
@@ -48,6 +49,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
   const [showGroupByDropdown, setShowGroupByDropdown] = useState(false);
 
   const views: { id: ActiveView; label: string; icon: React.ReactNode }[] = [
+    { id: 'dashboard', label: 'Overview', icon: <LayoutDashboard className="w-3.5 h-3.5" /> },
     { id: 'list', label: 'List', icon: <List className="w-3.5 h-3.5" /> },
     { id: 'board', label: 'Board', icon: <Kanban className="w-3.5 h-3.5" /> },
     { id: 'calendar', label: 'Calendar', icon: <Calendar className="w-3.5 h-3.5" /> },
