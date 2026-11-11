@@ -29,7 +29,12 @@ interface TaskDetailModalProps {
   currentUser: Assignee;
 }
 
-export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
+export const TaskDetailModal: React.FC<TaskDetailModalProps> = (props) => {
+  if (!props.task) return null;
+  return <TaskDetailContent {...props} task={props.task} />;
+};
+
+const TaskDetailContent: React.FC<TaskDetailModalProps & { task: Task }> = ({
   task,
   statuses,
   teamMembers,
@@ -40,7 +45,6 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
   onToggleTimer,
   currentUser,
 }) => {
-  if (!task) return null;
 
   const [newSubtaskTitle, setNewSubtaskTitle] = useState('');
   const [newChecklistText, setNewChecklistText] = useState('');
@@ -242,11 +246,11 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex justify-end">
-      <div className="w-full max-w-2xl bg-[#111317] h-full border-l border-slate-800/60 flex flex-col shadow-2xl overflow-hidden select-none">
+      <div className="w-full max-w-2xl bg-[#111317] h-full border-l border-[#303034] flex flex-col shadow-2xl overflow-hidden select-none">
         {/* Minimal Header */}
         <div className="px-6 py-2.5 border-b border-slate-800/50 flex items-center justify-between text-xs text-slate-400">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-purple-400">{task.key}</span>
+            <span className="font-mono text-white">{task.key}</span>
             <button
               onClick={copyTaskKey}
               className="p-1 hover:text-white rounded"
@@ -372,7 +376,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
                     onClick={() => handleToggleAssignee(member.id)}
                     className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-xs transition-colors ${
                       isAssigned
-                        ? 'bg-purple-500/15 text-purple-200'
+                        ? 'bg-white/10 text-white'
                         : 'opacity-40 hover:opacity-100 text-slate-400'
                     }`}
                   >
@@ -395,7 +399,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
               <button
                 onClick={handleAiWriteDescription}
                 disabled={isWritingDescription}
-                className="flex items-center gap-1 text-[11px] text-purple-400 hover:text-purple-300 transition-colors"
+                className="flex items-center gap-1 text-[11px] text-white hover:text-white transition-colors"
               >
                 <Sparkles className="w-3 h-3" />
                 <span>{isWritingDescription ? 'Writing...' : 'AI auto-write'}</span>
@@ -420,7 +424,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
               <button
                 onClick={handleAiGenerateSubtasks}
                 disabled={isGeneratingSubtasks}
-                className="flex items-center gap-1 text-[11px] text-purple-400 hover:text-purple-300 transition-colors"
+                className="flex items-center gap-1 text-[11px] text-white hover:text-white transition-colors"
               >
                 <Sparkles className="w-3 h-3" />
                 <span>{isGeneratingSubtasks ? 'Generating...' : 'AI subtasks'}</span>
@@ -472,7 +476,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
               <button
                 onClick={handleAiSummarize}
                 disabled={isSummarizing}
-                className="flex items-center gap-1 text-[11px] text-purple-400 hover:text-purple-300"
+                className="flex items-center gap-1 text-[11px] text-white hover:text-white"
               >
                 <Sparkles className="w-3 h-3" />
                 <span>{isSummarizing ? 'Summarizing...' : 'Summarize'}</span>
@@ -480,7 +484,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
             </div>
 
             {aiSummary && (
-              <div className="p-2.5 rounded bg-purple-500/10 border border-purple-500/20 text-purple-200 text-xs whitespace-pre-line">
+              <div className="p-2.5 rounded bg-white/10 border border-[#4B4B52] text-white text-xs whitespace-pre-line">
                 {aiSummary}
               </div>
             )}
@@ -513,11 +517,11 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
                 placeholder="Write a comment..."
                 value={newCommentText}
                 onChange={e => setNewCommentText(e.target.value)}
-                className="flex-1 bg-white/[0.03] border border-slate-800/80 rounded px-2.5 py-1 text-xs text-slate-200 placeholder-slate-600 focus:outline-none"
+                className="flex-1 bg-white/[0.03] border border-[#303034] rounded px-2.5 py-1 text-xs text-slate-200 placeholder-slate-600 focus:outline-none"
               />
               <button
                 type="submit"
-                className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-xs font-medium"
+                className="px-2.5 py-1 bg-white hover:bg-zinc-200 text-black rounded text-xs font-medium"
               >
                 Send
               </button>
