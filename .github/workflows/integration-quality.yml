@@ -1,0 +1,34 @@
+name: Integration quality gates
+on:
+  push:
+    branches:
+      - "integration/**"
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: read
+jobs:
+  validate:
+    name: Typecheck, build, and source guardrails
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install --no-package-lock; fi
+      - name: TypeScript check
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Check for committed sensitive environment values
+        shell: bash
+        run: |
+          if git ls-files | grep -E '(^|/)(\.env|\.env\.(local|production|development))$'; then
+            echo "Tracked runtime environment file detected"
+            exit 1
+          fi
+          echo "No tracked runtime .env files"

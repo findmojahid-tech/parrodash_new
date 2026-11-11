@@ -55,12 +55,12 @@ export const TableView: React.FC<TableViewProps> = ({
                 className="grid grid-cols-12 gap-3 px-4 py-2 items-center hover:bg-slate-800/40 cursor-pointer transition-colors"
               >
                 {/* Key */}
-                <div className="col-span-1 font-mono font-bold text-purple-400 text-[11px]">
+                <div className="col-span-1 font-mono font-bold text-white text-[11px]">
                   {task.key}
                 </div>
 
                 {/* Title */}
-                <div className="col-span-3 font-medium text-slate-200 truncate hover:text-purple-300">
+                <div className="col-span-3 font-medium text-slate-200 truncate hover:text-white">
                   {task.title}
                 </div>
 

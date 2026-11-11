@@ -24,9 +24,12 @@ import {
   INITIAL_WHITEBOARD_EDGES,
 } from './data/initialData';
 
-import { Sidebar } from './components/layout/Sidebar';
-import { TopHeader } from './components/layout/TopHeader';
+import { OarkieSidebar } from './components/layout/OarkieSidebar';
+import { OarkieHeader } from './components/layout/OarkieHeader';
 import { ListView } from './components/views/ListView';
+import { DashboardView } from './components/views/DashboardView';
+import { OperationsView } from './components/views/OperationsView';
+import { BusinessModuleView, type BusinessModule } from './components/views/BusinessModuleView';
 import { BoardView } from './components/views/BoardView';
 import { CalendarView } from './components/views/CalendarView';
 import { GanttView } from './components/views/GanttView';
@@ -124,7 +127,7 @@ export default function App() {
   const [activeSpaceId, setActiveSpaceId] = useState<string | 'all'>('space-eng');
   const [activeFolderId, setActiveFolderId] = useState<string | null>('folder-sprint42');
   const [activeListId, setActiveListId] = useState<string | 'all'>('list-active-sprint');
-  const [activeView, setActiveView] = useState<ActiveView>('list');
+  const [activeView, setActiveView] = useState<ActiveView>('dashboard');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Current logged in user
@@ -411,9 +414,9 @@ export default function App() {
   const activeTimerTask = tasks.find(t => t.id === activeTimerTaskId) || null;
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#0f1115] text-slate-100 font-sans antialiased">
+    <div className="flex h-[100dvh] w-full overflow-hidden bg-[#0D0D0F] text-[#F7F7F8] font-sans antialiased">
       {/* ClickUp 3.0 Sidebar */}
-      <Sidebar
+      <OarkieSidebar
         spaces={spaces}
         activeSpaceId={activeSpaceId}
         activeFolderId={activeFolderId}
@@ -430,15 +433,22 @@ export default function App() {
         onResetData={handleResetData}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(prev => !prev)}
+        onSelectDashboard={() => setActiveView('dashboard')}
+        onSelectTasks={() => setActiveView('list')}
+        onSelectBoard={() => setActiveView('board')}
+        onSelectCalendar={() => setActiveView('calendar')}
+        onSelectPeople={() => setActiveView('people')}
+        onSelectCrm={() => setActiveView('crm')}
+        onSelectBusinessModule={module => setActiveView(module)}
         onSelectDocs={() => setActiveView('docs')}
         onSelectWhiteboard={() => setActiveView('whiteboard')}
         activeView={activeView}
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-screen min-w-0 overflow-hidden bg-[#0f1115]">
+      <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-[#0D0D0F]">
         {/* Top Header Navigation & Controls */}
-        <TopHeader
+        <OarkieHeader
           activeView={activeView}
           onViewChange={view => setActiveView(view)}
           filterState={filterState}
@@ -454,6 +464,13 @@ export default function App() {
 
         {/* View Viewport */}
         <main className="flex-1 flex overflow-hidden relative">
+          {(activeView === 'people' || activeView === 'crm') && <OperationsView module={activeView} />}
+          {(['attendance','leave','payroll','announcements','approvals','invoices','messages','notifications','holidays','resources','notes','submissions'] as ActiveView[]).includes(activeView) && <BusinessModuleView module={activeView as BusinessModule} />}
+          {activeView === 'dashboard' && (
+            <DashboardView tasks={tasks} spaces={spaces} statuses={INITIAL_STATUSES} members={TEAM_MEMBERS}
+              onOpenTask={task => setSelectedTask(task)} onNewTask={() => setIsNewTaskModalOpen(true)}
+              onViewTasks={() => setActiveView('list')} />
+          )}
           {activeView === 'list' && (
             <ListView
               tasks={filteredTasks}

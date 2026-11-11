@@ -138,7 +138,7 @@ export interface WhiteboardEdge {
   label?: string;
 }
 
-export type ActiveView = 'list' | 'board' | 'calendar' | 'gantt' | 'table' | 'docs' | 'whiteboard';
+export type ActiveView = 'attendance' | 'leave' | 'payroll' | 'announcements' | 'approvals' | 'invoices' | 'messages' | 'notifications' | 'holidays' | 'resources' | 'notes' | 'submissions' | 'dashboard' | 'list' | 'board' | 'calendar' | 'gantt' | 'table' | 'docs' | 'whiteboard' | 'people' | 'crm';
 
 export interface FilterState {
   searchQuery: string;

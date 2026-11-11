@@ -181,7 +181,7 @@ export const ListView: React.FC<ListViewProps> = ({
   return (
     <div className="flex-1 overflow-y-auto px-6 py-3 select-none">
       {/* Table Headers */}
-      <div className="grid grid-cols-12 gap-3 px-3 py-1.5 text-[11px] font-medium text-slate-500 border-b border-slate-800/60">
+      <div className="grid grid-cols-12 gap-3 px-3 py-1.5 text-[11px] font-medium text-slate-500 border-b border-[#303034]">
         <div className="col-span-6">Name</div>
         <div className="col-span-2">Assignee</div>
         <div className="col-span-2">Due Date</div>
@@ -217,7 +217,7 @@ export const ListView: React.FC<ListViewProps> = ({
                     type="checkbox"
                     checked={allGroupSelected}
                     onChange={() => handleSelectAllInGroup(groupTaskIds)}
-                    className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-900 text-purple-600 focus:ring-0 cursor-pointer"
+                    className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-900 text-white focus:ring-0 cursor-pointer"
                   />
 
                   <span
@@ -248,7 +248,7 @@ export const ListView: React.FC<ListViewProps> = ({
 
               {/* Task Rows */}
               {!isCollapsed && (
-                <div className="divide-y divide-slate-800/30 border-y border-slate-800/40">
+                <div className="divide-y divide-slate-800/30 border-y border-[#303034]">
                   {group.tasks.map(task => {
                     const isSelected = selectedTaskIds.includes(task.id);
                     const isTimerActive = activeTimerTaskId === task.id;
@@ -261,7 +261,7 @@ export const ListView: React.FC<ListViewProps> = ({
                         onClick={() => onSelectTask(task)}
                         className={`grid grid-cols-12 gap-3 px-3 py-2 text-xs items-center cursor-pointer transition-colors group/row ${
                           isSelected
-                            ? 'bg-purple-500/10 text-white'
+                            ? 'bg-white/10 text-white'
                             : 'hover:bg-white/[0.02] text-slate-300'
                         }`}
                       >
@@ -272,7 +272,7 @@ export const ListView: React.FC<ListViewProps> = ({
                             checked={isSelected}
                             onClick={e => e.stopPropagation()}
                             onChange={e => handleCheckboxChange(task.id, e as any)}
-                            className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-900 text-purple-600 focus:ring-0 cursor-pointer shrink-0"
+                            className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-900 text-white focus:ring-0 cursor-pointer shrink-0"
                           />
 
                           {/* Minimal status circle */}
@@ -284,7 +284,7 @@ export const ListView: React.FC<ListViewProps> = ({
                               onUpdateTask({ ...task, statusId: nextStatus.id });
                             }}
                             title="Advance status"
-                            className="w-3.5 h-3.5 rounded-full border border-slate-600 hover:border-purple-400 transition-colors shrink-0 flex items-center justify-center"
+                            className="w-3.5 h-3.5 rounded-full border border-slate-600 hover:border-white transition-colors shrink-0 flex items-center justify-center"
                             style={{
                               backgroundColor:
                                 task.statusId === 'status-complete' ? '#10b981' : 'transparent',
@@ -299,7 +299,7 @@ export const ListView: React.FC<ListViewProps> = ({
                             {task.key}
                           </span>
 
-                          <span className="truncate font-medium text-slate-200 group-hover/row:text-purple-300">
+                          <span className="truncate font-medium text-slate-200 group-hover/row:text-white">
                             {task.title}
                           </span>
 
@@ -356,7 +356,7 @@ export const ListView: React.FC<ListViewProps> = ({
                             className={`p-1 rounded opacity-0 group-hover/row:opacity-100 transition-opacity ${
                               isTimerActive
                                 ? 'opacity-100 text-rose-400'
-                                : 'text-slate-500 hover:text-purple-400'
+                                : 'text-slate-500 hover:text-white'
                             }`}
                           >
                             {isTimerActive ? (

@@ -111,7 +111,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       </div>
 
       {/* Calendar Days Grid */}
-      <div className="grid grid-cols-7 flex-1 border-b border-r border-slate-800/80 mt-1">
+      <div className="grid grid-cols-7 flex-1 border-b border-r border-[#303034] mt-1">
         {days.map((item, idx) => {
           const isToday = item.dateStr === '2026-11-11';
           const dayTasks = tasks.filter(t => t.dueDate === item.dateStr);
@@ -120,14 +120,14 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             <div
               key={idx}
               onClick={() => onQuickAddTaskWithDate(item.dateStr)}
-              className={`border-t border-l border-slate-800/80 p-2 flex flex-col justify-between group hover:bg-slate-900/60 transition-colors cursor-pointer min-h-[90px] ${
+              className={`border-t border-l border-[#303034] p-2 flex flex-col justify-between group hover:bg-slate-900/60 transition-colors cursor-pointer min-h-[90px] ${
                 !item.isCurrentMonth ? 'bg-[#0e1014]/50 opacity-40' : 'bg-[#14161b]'
               }`}
             >
               <div className="flex items-center justify-between">
                 <span
                   className={`text-xs font-mono tabular-nums font-semibold w-5 h-5 flex items-center justify-center rounded-full ${
-                    isToday ? 'bg-purple-600 text-white' : 'text-slate-300'
+                    isToday ? 'bg-[#303034] text-white' : 'text-slate-300'
                   }`}
                 >
                   {item.day}

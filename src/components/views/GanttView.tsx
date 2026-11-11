@@ -56,7 +56,7 @@ export const GanttView: React.FC<GanttViewProps> = ({
       <div className="px-6 py-3 border-b border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h2 className="text-sm font-bold text-white flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-purple-400" />
+            <Calendar className="w-4 h-4 text-white" />
             <span>Interactive Gantt Timeline (Sprint 42)</span>
           </h2>
           <span className="text-xs text-slate-400 font-mono">Nov 1 – Nov 22, 2026</span>
@@ -91,7 +91,7 @@ export const GanttView: React.FC<GanttViewProps> = ({
                 >
                   <div className="min-w-0 pr-2">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] font-mono font-bold text-purple-400">{task.key}</span>
+                      <span className="text-[10px] font-mono font-bold text-white">{task.key}</span>
                       <span className="text-xs font-semibold text-slate-200 truncate">{task.title}</span>
                     </div>
                     <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
@@ -130,9 +130,9 @@ export const GanttView: React.FC<GanttViewProps> = ({
             {days.map(day => (
               <div
                 key={day.dateStr}
-                className={`flex-1 border-r border-slate-800/60 flex items-center justify-center text-[11px] font-mono tabular-nums ${
+                className={`flex-1 border-r border-[#303034] flex items-center justify-center text-[11px] font-mono tabular-nums ${
                   day.isToday
-                    ? 'bg-purple-900/30 text-purple-300 font-bold border-purple-500/50'
+                    ? 'bg-purple-900/30 text-white font-bold border-purple-500/50'
                     : day.isWeekend
                     ? 'bg-slate-900/60 text-slate-500'
                     : 'text-slate-400'
@@ -150,7 +150,7 @@ export const GanttView: React.FC<GanttViewProps> = ({
               {days.map(day => (
                 <div
                   key={`bg-${day.dateStr}`}
-                  className={`flex-1 border-r border-slate-800/40 ${
+                  className={`flex-1 border-r border-[#303034] ${
                     day.isToday ? 'bg-purple-500/5' : day.isWeekend ? 'bg-slate-900/20' : ''
                   }`}
                 />

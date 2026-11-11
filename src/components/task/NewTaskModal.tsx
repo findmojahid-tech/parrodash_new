@@ -68,7 +68,7 @@ export const NewTaskModal: React.FC<NewTaskModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[#14161b] border border-slate-800/80 rounded-xl shadow-2xl overflow-hidden select-none">
+      <div className="w-full max-w-md bg-[#14161b] border border-[#303034] rounded-xl shadow-2xl overflow-hidden select-none">
         {/* Header */}
         <div className="px-5 py-3 border-b border-slate-800/50 flex items-center justify-between">
           <span className="text-xs font-semibold text-slate-200">New Task</span>
@@ -140,7 +140,7 @@ export const NewTaskModal: React.FC<NewTaskModalProps> = ({
           />
 
           {/* Properties Row */}
-          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/40 text-slate-400">
+          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[#303034] text-slate-400">
             <div>
               <span className="text-[10px] block mb-1">Priority</span>
               <select
@@ -191,7 +191,7 @@ export const NewTaskModal: React.FC<NewTaskModalProps> = ({
                     onClick={() => toggleAssignee(m.id)}
                     className={`flex items-center gap-1 px-2 py-0.5 rounded text-[11px] transition-colors ${
                       isSelected
-                        ? 'bg-purple-500/20 text-purple-200'
+                        ? 'bg-white/15 text-white'
                         : 'text-slate-400 hover:text-white'
                     }`}
                   >
@@ -204,7 +204,7 @@ export const NewTaskModal: React.FC<NewTaskModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="pt-3 border-t border-slate-800/40 flex items-center justify-end gap-2">
+          <div className="pt-3 border-t border-[#303034] flex items-center justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
@@ -214,7 +214,7 @@ export const NewTaskModal: React.FC<NewTaskModalProps> = ({
             </button>
             <button
               type="submit"
-              className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded font-medium"
+              className="px-3.5 py-1.5 bg-white hover:bg-zinc-200 text-black rounded font-medium"
             >
               Create
             </button>
