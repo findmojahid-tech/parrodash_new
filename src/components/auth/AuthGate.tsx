@@ -133,7 +133,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
   if (isEmployeeJoinRoute()) return <EmployeeJoin />;
   if (authMode === 'demo') return <>{children}</>;
-  if (status === 'approved') return <>{children}{user && <EmployeeInviteManager userId={user.id} /><EmployeeApprovalInbox userId={user.id} />}</>;
+  if (status === 'approved') return <>{children}{user && <><EmployeeInviteManager userId={user.id} /><EmployeeApprovalInbox userId={user.id} /></>}</>;
 
   return (
     <main className="min-h-screen bg-[#0f1115] text-slate-100 flex items-center justify-center p-4">
