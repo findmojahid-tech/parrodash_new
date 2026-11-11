@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  BarChart3, CalendarDays, ChevronDown, ChevronRight, CheckSquare2, Command,
+  BarChart3, BriefcaseBusiness, Users, CalendarDays, ChevronDown, ChevronRight, CheckSquare2, Command,
   FileText, FolderKanban, LayoutDashboard, LayoutGrid, Menu, Moon, PanelLeftClose,
   PanelLeftOpen, Plus, RotateCcw, Search, Sparkles, Sun, X,
 } from 'lucide-react';
@@ -29,6 +29,8 @@ interface Props {
   onSelectTasks: () => void;
   onSelectBoard: () => void;
   onSelectCalendar: () => void;
+  onSelectPeople: () => void;
+  onSelectCrm: () => void;
   activeView: string;
 }
 export const OarkieSidebar: React.FC<Props> = ({
@@ -36,7 +38,7 @@ export const OarkieSidebar: React.FC<Props> = ({
   onSelectList, currentUser, isDarkMode, onToggleTheme, onOpenCommandPalette,
   onOpenBrain, onOpenNewTask, onResetData, isCollapsed, onToggleCollapse,
   onSelectDocs, onSelectWhiteboard, onSelectDashboard, onSelectTasks,
-  onSelectBoard, onSelectCalendar, activeView,
+  onSelectBoard, onSelectCalendar, onSelectPeople, onSelectCrm, activeView,
 }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [expandedSpaces, setExpandedSpaces] = useState<Record<string, boolean>>({});
@@ -47,6 +49,8 @@ export const OarkieSidebar: React.FC<Props> = ({
     { label: 'Dashboard', Icon: LayoutDashboard, current: activeView === 'dashboard', click: onSelectDashboard },
     { label: 'Projects', Icon: FolderKanban, current: activeView === 'gantt' || activeView === 'board', click: onSelectBoard },
     { label: 'Tasks & Inbox', Icon: CheckSquare2, current: ['list', 'table'].includes(activeView), click: onSelectTasks },
+    { label: 'HR & People', Icon: Users, current: activeView === 'people', click: onSelectPeople },
+    { label: 'Client CRM', Icon: BriefcaseBusiness, current: activeView === 'crm', click: onSelectCrm },
     { label: 'Calendar', Icon: CalendarDays, current: activeView === 'calendar', click: onSelectCalendar },
     { label: 'Docs', Icon: FileText, current: activeView === 'docs', click: onSelectDocs },
     { label: 'Whiteboard', Icon: LayoutGrid, current: activeView === 'whiteboard', click: onSelectWhiteboard },
