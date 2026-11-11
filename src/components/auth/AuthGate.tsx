@@ -41,29 +41,6 @@ export function AuthGate({ children }: { children: ReactNode }) {
   }, [client]);
 
   useEffect(() => {
-    async function updatePassword(event: FormEvent) {
-    event.preventDefault();
-    if (!client || newPassword.length < 10 || !/[A-Za-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
-      setError('Use at least 10 characters, including a letter and a number.');
-      return;
-    }
-    setBusy(true);
-    setError('');
-    try {
-      const { error: updateError } = await client.auth.updateUser({ password: newPassword });
-      if (updateError) throw updateError;
-      recoveryActive.current = false;
-      setNewPassword('');
-      window.history.replaceState(null, '', window.location.pathname);
-      const { data, error: authError } = await client.auth.getUser();
-      if (authError) throw authError;
-      await verify(data.user);
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Unable to reset password.');
-    } finally {
-      setBusy(false);
-    }
-  }
 
   if (authMode === 'demo') return;
     if (!client) { setStatus('configuration_error'); return; }
@@ -125,6 +102,31 @@ export function AuthGate({ children }: { children: ReactNode }) {
       setBusy(false);
     }
   }
+
+  async function updatePassword(event: FormEvent) {
+    event.preventDefault();
+    if (!client || newPassword.length < 10 || !/[A-Za-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+      setError('Use at least 10 characters, including a letter and a number.');
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      const { error: updateError } = await client.auth.updateUser({ password: newPassword });
+      if (updateError) throw updateError;
+      recoveryActive.current = false;
+      setNewPassword('');
+      window.history.replaceState(null, '', window.location.pathname);
+      const { data, error: authError } = await client.auth.getUser();
+      if (authError) throw authError;
+      await verify(data.user);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Unable to reset password.');
+    } finally {
+      setBusy(false);
+    }
+  }
+
 
   if (authMode === 'demo') return <>{children}</>;
   if (status === 'approved') return <>{children}</>;
